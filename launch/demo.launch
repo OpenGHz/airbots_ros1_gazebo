@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Gazebo options -->
+  <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_1cube.world" doc="Gazebo world file"/>
+  <arg name="world_pose" default="-x 0 -y -0.2 -z 1.08 -R 0 -P 0 -Y 1.57" doc="Pose to spawn the robot at"/>
+  <arg name="model_name" default="airbot_play_with_camera_gazebo" doc="The URDF or Xacro file name of robot model"/>
+  <arg name="model_pkg" default="$(arg model_name)" doc="The name of the package containing URDF or Xacro file of robot model"/>
+  <arg name="use_xacro" default="true" doc="Don't use URDF"/>
+  <arg name="start_moveit" default="false" doc="Use MoveIt! to control the gazebo robot"/>
+  <arg name="moveit_config" default="airbot_play_inspire_eg2_4c_v2_gazebo_config" doc="MoveIt! config package name"/>
+  <arg name="initial_joint_positions" default=" -J joint1 0 -J joint2 0 -J joint3 0 -J joint4 0 -J joint5 0 -J joint6 0 -J joint_gripper10 0 -J joint_gripper11 0 -J joint_gripper20 0 -J joint_gripper21 0" doc="Initial joint configuration of the robot"/>
+  <arg name="gazebo_gui" default="true" doc="Start Gazebo GUI"/>
+  <arg name="paused" default="false" doc="Start Gazebo paused"/>
+
+  <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
+    <arg name="paused" value="true"/>
+  </include>
+
+  <!-- Set the robot urdf on the parameter server -->
+  <arg name="cmd_to_find_model_path" value="['rospack','find','$(arg model_pkg)']"/>
+  <arg name="model_pkg_path" value="$(eval eval('_'+'_import_'+'_(&quot;subprocess&quot;)').check_output(eval(arg('cmd_to_find_model_path'))).decode().strip())"/>
+  <param unless="$(arg use_xacro)" name="robot_description" textfile="$(arg model_pkg_path)/urdf/$(arg model_name).urdf" />
+  <param if="$(arg use_xacro)" name="robot_description" command="$(find xacro)/xacro --inorder '$(arg model_pkg_path)/urdf/$(arg model_name).xacro'" />
+
+  <!-- Unpause the simulation after loading the robot model -->
+  <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" />
+
+  <!-- Spawn the robot in Gazebo -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot $(arg unpause) $(arg world_pose) $(arg initial_joint_positions)"
+    respawn="false" output="screen" />
+
+  <!-- Load the controller parameters onto the parameter server -->
+  <rosparam file="$(find airbot_play_gazebo)/config/gazebo_controllers.yaml" />
+  <include file="$(find airbot_play_gazebo)/launch/ros_controllers.launch"/>
+
+  <!-- Spawn the Gazebo ROS controllers -->
+  <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
+
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+  <!-- Start MoveIt! -->
+  <group if="$(arg start_moveit)">
+    <arg name="cmd_to_find_pkg_path" value="['rospack','find','$(arg moveit_config)']"/>
+    <arg name="pkg_path" value="$(eval eval('_'+'_import_'+'_(&quot;subprocess&quot;)').check_output(eval(arg('cmd_to_find_pkg_path'))).decode().strip())"/>
+    <include file="$(arg pkg_path)/launch/demo.launch">
+      <!-- robot_description is loaded by gazebo.launch, to enable Gazebo features -->
+      <arg name="load_robot_description" value="false" />
+      <arg name="moveit_controller_manager" value="ros_control" />
+      <arg name="pipeline" value="ompl"/>
+    </include>
+  </group>
+
+</launch>
