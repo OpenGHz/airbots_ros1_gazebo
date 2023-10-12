@@ -3,8 +3,8 @@
   <!-- Gazebo options -->
   <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_1cube.world" doc="Gazebo world file"/>
   <arg name="world_pose" default="-x 0 -y -0.2 -z 1.08 -R 0 -P 0 -Y 1.57" doc="Pose to spawn the robot at"/>
-  <arg name="model_name" default="airbot_play_with_camera_gazebo" doc="The URDF or Xacro file name of robot model"/>
-  <arg name="model_pkg" default="$(arg model_name)" doc="The name of the package containing URDF or Xacro file of robot model"/>
+  <arg name="model_pkg" default="airbot_play_inspire_eg2_4c_v2_with_simple_usb_camera_gazebo" doc="The name of the package containing URDF or Xacro file of robot model"/>
+  <arg name="model_name" default="$(arg model_pkg)" doc="The URDF or Xacro file name of robot model"/>
   <arg name="use_xacro" default="true" doc="Don't use URDF"/>
   <arg name="start_moveit" default="false" doc="Use MoveIt! to control the gazebo robot"/>
   <arg name="moveit_config" default="airbot_play_inspire_eg2_4c_v2_gazebo_config" doc="MoveIt! config package name"/>
