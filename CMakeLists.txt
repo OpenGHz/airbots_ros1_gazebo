@@ -4,8 +4,13 @@ cmake_policy(SET CMP0048 NEW)
 
 project(airbot_play_gazebo)
 
-find_package(catkin REQUIRED)
-
+find_package(catkin REQUIRED COMPONENTS
+  gazebo_plugins
+  gazebo_ros
+  gazebo_ros_control
+  urdf
+  xacro
+)
 catkin_package()
 
 find_package(roslaunch)
