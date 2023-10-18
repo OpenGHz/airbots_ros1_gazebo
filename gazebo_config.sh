@@ -2,11 +2,14 @@
 
 current_dir=$(pwd)
 
+# temp compatible config
+# [ "$1" = "-c" ] && 
+
 if [ -n "$GAZEBO_RESOURCE_PATH" ];then  # the GAZEBO_RESOURCE_PATH is not empty showing the gazebo has been configured
     if [[ $GAZEBO_RESOURCE_PATH == *"airbot_play_gazebo"* ]];then
-        new_config="export GAZEBO_RESOURCE_PATH=${current_dir}":'"$GAZEBO_RESOURCE_PATH"'
-        # sed -i "/airbot_play_gazebo/d" ~/."${SHELL##*/}"rc  # remove the old config in the rc file
-        sed -i "/airbot_play_gazebo/c\\${new_config}" ~/."${SHELL##*/}"rc
+        new_config="export GAZEBO_RESOURCE_PATH=${current_dir}":'$GAZEBO_RESOURCE_PATH'
+        # sed -i "/airbot_play_gazebo/d" ~/."${SHELL##*/}"rc  # remove the old
+        sed -i "/airbot_play_gazebo/c\\${new_config}" ~/."${SHELL##*/}"rc  # replace the old config in the rc file
     else
         echo "export GAZEBO_RESOURCE_PATH=${current_dir}":'"$GAZEBO_RESOURCE_PATH"' >> ~/."${SHELL##*/}"rc
     fi

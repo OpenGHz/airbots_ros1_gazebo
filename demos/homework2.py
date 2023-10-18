@@ -51,7 +51,7 @@ gripper.set_max_acceleration_scaling_factor(0.1)
 gripper.set_max_acceleration_scaling_factor(0.1)
 gripper.set_named_target("pick_big_cube")
 gripper.go()
-rospy.sleep(6)
+rospy.sleep(1)
 gripper.set_max_acceleration_scaling_factor(1)
 gripper.set_max_acceleration_scaling_factor(1)
 arm.go_to_named_or_joint_target('Home')  # 机械臂到达初始位置
