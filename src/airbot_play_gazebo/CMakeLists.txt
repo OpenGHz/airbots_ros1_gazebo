@@ -17,3 +17,8 @@ find_package(roslaunch)
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 install(DIRECTORY config DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
+
+catkin_install_python(PROGRAMS
+  demos/keyboard_control.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
