@@ -11,6 +11,7 @@
   <arg name="initial_joint_positions" default=" -J joint1 0 -J joint2 0 -J joint3 0 -J joint4 0 -J joint5 0 -J joint6 0 -J joint_gripper10 0 -J joint_gripper11 0 -J joint_gripper20 0 -J joint_gripper21 0" doc="Initial joint configuration of the robot"/>
   <arg name="gazebo_gui" default="true" doc="Start Gazebo GUI"/>
   <arg name="paused" default="false" doc="Start Gazebo paused"/>
+  <arg name="player_number" default="1" doc="The number of the players"/>
 
   <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
@@ -51,5 +52,7 @@
       <arg name="pipeline" value="ompl"/>
     </include>
   </group>
+
+  <param name="/airbot_play/sim_player_nums" type="int" value="$(arg player_number)" />
 
 </launch>
