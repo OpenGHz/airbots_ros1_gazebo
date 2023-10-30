@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Gazebo options -->
-  <arg name="world_name" default="worlds/empty_sky.world" doc="Gazebo world file"/>
-  <arg name="world_pose" default="-x 0 -y 0 -z 0.2 -R 0 -P 0 -Y 0" doc="Pose to spawn the robot at"/>
+  <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_1cube.world" doc="Gazebo world file"/>
+  <arg name="world_pose" default="-x 1 -y 1 -z 0 -R 0 -P 0 -Y 0" doc="Pose to spawn the robot at"/>
   <arg name="model_pkg" default="airbot_play_with_rm2_urdf" doc="The name of the package containing URDF or Xacro file of robot model"/>
   <arg name="model_name" default="$(arg model_pkg)" doc="The URDF or Xacro file name of robot model"/>
   <arg name="use_xacro" default="false" doc="Don't use URDF"/>
-  <arg name="start_moveit" default="true" doc="Use MoveIt! to control the gazebo robot"/>
+  <arg name="start_moveit" default="false" doc="Use MoveIt! to control the gazebo robot"/>
   <arg name="moveit_config" default="airbot_play_with_inspire_eg2_4c_v2_rm2_config" doc="MoveIt! config package name"/>
   <arg name="initial_joint_positions" default=" -J joint1 0 -J joint2 0 -J joint3 0 -J joint4 0 -J joint5 0 -J joint6 0 -J joint_gripper10 0 -J joint_gripper11 0 -J joint_gripper20 0 -J joint_gripper21 0" doc="Initial joint configuration of the robot"/>
   <arg name="gazebo_gui" default="true" doc="Start Gazebo GUI"/>
   <arg name="paused" default="false" doc="Start Gazebo paused"/>
   <arg name="player_number" default="1" doc="The number of all airbot players(after)"/>
-  <arg name="with_rm2" default="true" doc="AIRbotPlay with rm2"/>
+  <arg name="with_rm2" default="false" doc="AIRbotPlay with rm2"/>
 
   <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
