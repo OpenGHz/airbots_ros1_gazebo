@@ -59,4 +59,10 @@
 
   <param name="/airbot_play/sim_player_nums" type="int" value="$(arg player_number)" />
 
+  <!-- 规划与执行的关键参数 -->
+  <param name="move_group/trajectory_execution/allowed_execution_duration_scaling" value="3.0"/>
+  <param name="move_group/trajectory_execution/allowed_goal_duration_margin" value="0.5"/>
+  <param name="move_group/trajectory_execution/execution_duration_monitoring" value="false"/>
+  <param name="move_group/trajectory_execution/allowed_start_tolerance" value="3.0"/>
+
 </launch>
