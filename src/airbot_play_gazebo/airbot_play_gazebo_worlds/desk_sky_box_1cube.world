@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>  
+<?xml version="1.0" ?>
 
 <sdf version='1.7'>
   <world name='default'>
@@ -81,9 +81,9 @@
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
     <physics type='ode'>
-      <max_step_size>0.0001</max_step_size>
+      <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>10000</real_time_update_rate>
+      <real_time_update_rate>1000</real_time_update_rate>
     </physics>
     <wind/>
     <spherical_coordinates>
@@ -173,10 +173,10 @@
       <pose>-0.047573 0.016161 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>1124 302000000</sim_time>
-      <real_time>592 689083600</real_time>
-      <wall_time>1696741450 166154652</wall_time>
-      <iterations>586298</iterations>
+      <sim_time>538 4000000</sim_time>
+      <real_time>407 714288125</real_time>
+      <wall_time>1696738066 654112416</wall_time>
+      <iterations>405734</iterations>
       <model name='cafe_table'>
         <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -198,13 +198,13 @@
         </link>
       </model>
       <model name='grey_tote'>
-        <pose>2e-06 -0.269913 0.775561 -1.6e-05 7e-06 -0.00011</pose>
+        <pose>-1e-06 -0.269988 0.775561 -1.5e-05 8e-06 -2.3e-05</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>2e-06 -0.269913 0.775561 -1.6e-05 7e-06 -0.00011</pose>
+          <pose>-1e-06 -0.269988 0.775561 -1.5e-05 8e-06 -2.3e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0.036256 0.024544 -9.7542 -0.229128 0.222429 -0.026602</acceleration>
-          <wrench>0.128274 0.086837 -34.5106 0 -0 0</wrench>
+          <acceleration>0.038746 0.026232 -9.75105 -0.244908 0.237697 -0.028417</acceleration>
+          <wrench>0.137084 0.09281 -34.4994 0 -0 0</wrench>
         </link>
       </model>
       <model name='ground_plane'>
@@ -226,7 +226,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>1.60583 -0.228023 1.36775 0 0.35623 3.04008</pose>
+        <pose>1.88306 0.010533 2.36322 0 0.76023 -3.11911</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
