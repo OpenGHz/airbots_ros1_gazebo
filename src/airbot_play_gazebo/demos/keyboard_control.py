@@ -2,7 +2,7 @@ import rospy
 from airbot_play_control.control import RoboticArmAgent, AirbotPlayConfig
 from moveit_commander import MoveGroupCommander
 
-NODE_NAME = 'airbot_play_gazebo'
+NODE_NAME = 'airbot_play_gazebo_keyboard'
 rospy.init_node(NODE_NAME)
 
 other_config=("", "airbot_play_arm")
