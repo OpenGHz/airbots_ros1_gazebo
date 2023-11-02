@@ -6,8 +6,9 @@ NODE_NAME = 'airbot_play_gazebo'
 rospy.init_node(NODE_NAME)
 
 other_config=("", "airbot_play_arm")
-airbot_play_arm = RoboticArmAgent(control_mode=AirbotPlayConfig.normal,init_pose=3,
+airbot_play_arm = RoboticArmAgent(control_mode=AirbotPlayConfig.normal,init_pose=None,
                       node_name=NODE_NAME,other_config=other_config)
+airbot_play_arm.set_and_go_to_pose_target([0.477,-0.17,0.57],[0,0.6963,0,0.7178])
 airbot_play_gripper = MoveGroupCommander("airbot_play_gripper")
 airbot_play_gripper.set_max_acceleration_scaling_factor(0.1)
 airbot_play_gripper.set_max_acceleration_scaling_factor(0.1)
