@@ -2,7 +2,7 @@
 <launch>
   <!-- Gazebo options -->
   <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_3cubes.world" doc="Gazebo world file"/>
-  <arg name="world_pose" default="-x 1 -y 1 -z 0 -R 0 -P 0 -Y 0" doc="Pose to spawn the robot at"/>
+  <arg name="world_pose" default="-x 0 -y 0.75 -z 0 -R 0 -P 0 -Y 0" doc="Pose to spawn the robot at"/>
   <arg name="model_pkg" default="airbot_play_inspire_eg2_4c_v2_with_rm2_simple_usb_camera_gazebo" doc="The name of the package containing URDF or Xacro file of robot model"/>
   <arg name="model_name" default="$(arg model_pkg)" doc="The URDF or Xacro file name of robot model"/>
   <arg name="use_xacro" default="false" doc="Don't use URDF"/>
