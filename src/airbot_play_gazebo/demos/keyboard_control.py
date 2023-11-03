@@ -11,7 +11,7 @@ other_config=("", "airbot_play_arm")
 airbot_play_arm = RoboticArmAgent(control_mode=AirbotPlayConfig.normal,init_pose=None,
                       node_name=NODE_NAME,other_config=other_config)
 # airbot_play_arm.set_and_go_to_pose_target([0.702,-0.17,0.614],[0,0,0,1])
-airbot_play_arm.set_and_go_to_pose_target([0.65,-0.06027,0.477],[0,1.5708,0])
+airbot_play_arm.set_and_go_to_pose_target([0.65,-0.11,0.47],[0,1.5708,0])
 airbot_play_gripper = MoveGroupCommander("airbot_play_gripper")
 airbot_play_gripper.set_max_acceleration_scaling_factor(0.1)
 airbot_play_gripper.set_max_acceleration_scaling_factor(0.1)
@@ -27,16 +27,26 @@ def publish_eef_pose():
 from threading import Thread
 Thread(target=publish_eef_pose,daemon=True).start()
 
-grasp_state = False
+grasp_state = True
+def pick():
+    global grasp_state
+    if not grasp_state:
+        # 夹爪闭合
+        SCALE_CLOSE = 0.7
+        delta = 0.04
+        CLOSE = (-SCALE_CLOSE,SCALE_CLOSE,SCALE_CLOSE,-SCALE_CLOSE + delta)
+        airbot_play_gripper.go(CLOSE)
+    else:
+        airbot_play_gripper.set_named_target("open")
+        airbot_play_gripper.go()
+    grasp_state = not grasp_state
+
+pick()
 while airbot_play_arm.is_alive():
     key = airbot_play_arm.key_control(delta_task=0.005,disable_keys=['p'],instruction=True)
-    if (key == 'p'):
-        if not grasp_state:
-            # 夹爪闭合
-            SCALE_CLOSE = 0.55
-            CLOSE = (-SCALE_CLOSE,SCALE_CLOSE,SCALE_CLOSE,-SCALE_CLOSE)
-            airbot_play_gripper.go(CLOSE)
-        else:
-            airbot_play_gripper.set_named_target("open")
-            airbot_play_gripper.go()
-        grasp_state = ~grasp_state
+    if key == 'p':
+        pick()
+    # elif key == '*':
+    #     airbot_play_arm.go_to_named_or_joint_target('Home')
+    # elif key == '/':
+    #     airbot_play_arm.set_and_go_to_pose_target([0.65,-0.11,0.47],[0,1.5708,0])
