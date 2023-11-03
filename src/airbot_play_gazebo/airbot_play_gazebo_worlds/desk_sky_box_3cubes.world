@@ -198,20 +198,20 @@
         </link>
       </model>
       <model name='blue_cube1'>
-        <pose>0.164 0.296 0.7875 -1.3e-05 7e-06 -0.000122</pose>
+        <pose>0.164 0.2559 0.7875 -1.3e-05 7e-06 -0.000122</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.164 0.296 0.7875 -1.3e-05 7e-06 -0.000122</pose>
+          <pose>0.164 0.2559 0.7875 -1.3e-05 7e-06 -0.000122</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0.069653 -0.070696 0.173673 -0.713524 0.71155 -0.000597</acceleration>
           <wrench>-0.00209 -0.002121 0.00521 0 -0 0</wrench>
         </link>
       </model>
       <model name='blue_cube2'>
-        <pose>0.294 0.196 0.7875 -1.3e-05 7e-06 -0.000122</pose>
+        <pose>0.28 0.196 0.7875 -1.3e-05 7e-06 -0.000122</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.329 0.196 0.7875 -1.3e-05 7e-06 -0.000122</pose>
+          <pose>0.28 0.196 0.7875 -1.3e-05 7e-06 -0.000122</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0.069653 -0.070696 0.173673 -0.713524 0.71155 -0.000597</acceleration>
           <wrench>-0.00209 -0.002121 0.00521 0 -0 0</wrench>
