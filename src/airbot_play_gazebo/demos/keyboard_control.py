@@ -8,6 +8,7 @@ NODE_NAME = 'airbot_play_gazebo_keyboard'
 rospy.init_node(NODE_NAME)
 
 other_config=("", "airbot_play_arm")
+# other_config = None
 airbot_play_arm = RoboticArmAgent(control_mode=AirbotPlayConfig.normal,init_pose=None,
                       node_name=NODE_NAME,other_config=other_config)
 # airbot_play_arm.set_and_go_to_pose_target([0.702,-0.17,0.614],[0,0,0,1])
@@ -17,7 +18,7 @@ airbot_play_gripper.set_max_acceleration_scaling_factor(0.1)
 airbot_play_gripper.set_max_acceleration_scaling_factor(0.1)
 
 # 发布末端位姿话题
-eef_pose_pub = rospy.Publisher("/airbot_play/eef_pose", PoseStamped, queue_size=1)
+eef_pose_pub = rospy.Publisher("/airbot_play/current_pose", PoseStamped, queue_size=1)
 def publish_eef_pose():
     rt = rospy.Rate(200)
     while True:

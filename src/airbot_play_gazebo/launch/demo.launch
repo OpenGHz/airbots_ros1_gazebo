@@ -13,6 +13,8 @@
   <arg name="paused" default="false" doc="Start Gazebo paused"/>
   <arg name="player_number" default="1" doc="The number of all airbot players(after)"/>
   <arg name="with_rm2" default="false" doc="AIRbotPlay with rm2"/>
+  <arg name="ik_server" default="false" doc="Start ik server"/>
+  <arg name="gripper_node" default="false" doc="Start gripper control node "/>
 
   <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
@@ -64,5 +66,10 @@
   <param name="move_group/trajectory_execution/allowed_goal_duration_margin" value="0.5"/>
   <param name="move_group/trajectory_execution/execution_duration_monitoring" value="false"/>
   <param name="move_group/trajectory_execution/allowed_start_tolerance" value="3.0"/>
+
+  <!-- ik server -->
+  <node if="$(arg ik_server)" name="airbot_play_gazebo_ik_server" pkg="airbot_play_follow_basic" type="ik_control_server.py" args="-rd 'robot_description' -ns ''" output="screen" />
+  <!-- gripper control node -->
+  <node if="$(arg gripper_node)" name="airbot_play_gazebo_gripper_control" pkg="airbot_play_follow_basic" type="gripper_control.py" args="-rd 'robot_description' -ns ''" output="screen" />
 
 </launch>
