@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="name" doc="The name of the model package. "/>
+    <arg name="world_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" doc="Pose to spawn the model at"/>
+    <arg name="initial_joint_positions" default="" doc="Initial joint configuration of the model"/>
+    <arg name="paused" default="false" doc="Start Gazebo paused"/>
+
+    <arg name="cmd_to_find_pkg_path" value="['rospack','find','$(arg name)']"/>
+    <arg name="pkg_path" value="$(eval eval('_'+'_import_'+'_(&quot;subprocess&quot;)').check_output(eval(arg('cmd_to_find_pkg_path'))).decode().strip())"/>
+
+    <!-- Unpause the simulation after loading the model -->
+    <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" />
+
+    <!-- Spawn the model in Gazebo -->
+    <node
+    name="$(arg name)"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(arg pkg_path)/urdf/microwave.urdf -urdf -model $(arg name) $(arg unpause) $(arg world_pose) $(arg initial_joint_positions)"
+    respawn="false"
+    output="screen"/>
+
+</launch>

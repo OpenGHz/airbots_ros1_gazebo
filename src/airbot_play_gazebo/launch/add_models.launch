@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Add one model, you can launch more by copy this and change the args in this file -->
+  <include file="$(find airbot_play_gazebo)/launch/add_model.launch">
+    <arg name="paused" value="true"/>
+    <arg name="name" value="microwave"/>
+    <arg name="world_pose" value="-x 5 -y 5 -z 0 -R 0 -P 0 -Y 0"/>
+    <arg name="initial_joint_positions" value=""/>
+  </include>
+
+</launch>

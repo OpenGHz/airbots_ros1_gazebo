@@ -15,6 +15,7 @@
   <arg name="with_rm2" default="false" doc="AIRbotPlay with rm2"/>
   <arg name="ik_server" default="false" doc="Start ik server"/>
   <arg name="gripper_node" default="false" doc="Start gripper control node "/>
+  <arg name="add_models" default="false" doc="Add other models to the world "/>
 
   <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
@@ -33,6 +34,9 @@
   <!-- Spawn the robot in Gazebo -->
   <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot $(arg unpause) $(arg world_pose) $(arg initial_joint_positions)"
     respawn="false" output="screen" />
+
+  <!-- Add other models in Gazebo -->
+  <include if="$(arg add_models)" file="$(find airbot_play_gazebo)/launch/add_models.launch" />
 
   <!-- Load the controller parameters onto the parameter server -->
   <rosparam file="$(find airbot_play_gazebo)/config/gazebo_controllers.yaml" />
