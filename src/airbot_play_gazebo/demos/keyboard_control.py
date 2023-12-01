@@ -22,11 +22,11 @@ eef_pose_pub = rospy.Publisher("/airbot_play/current_pose", PoseStamped, queue_s
 def publish_eef_pose():
     rt = rospy.Rate(200)
     while True:
-        eef_pose =  airbot_play_arm.arm_moveit.get_current_pose()
+        eef_pose =  airbot_play_arm.basic_c.get_current_pose()
         eef_pose_pub.publish(eef_pose)
         rt.sleep()
 from threading import Thread
-Thread(target=publish_eef_pose,daemon=True).start()
+Thread(target=publish_eef_pose, daemon=True).start()
 
 grasp_state = True
 def pick():
