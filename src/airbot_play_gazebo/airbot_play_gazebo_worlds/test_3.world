@@ -131,7 +131,7 @@
       <static>1</static>
       <pose>-0.165467 0.084012 0 0 -0 0</pose>
     </model>
-    <model name='bowl'>
+    <!-- <model name='bowl'>
       <link name='link'>
         <inertial>
           <pose>0 0 0 0 -0 0</pose>
@@ -216,12 +216,12 @@
         <kinematic>0</kinematic>
       </link>
       <pose>0 0 0 0 -0 0</pose>
-    </model>
+    </model> -->
     <model name='bowl_0'>
       <link name='link'>
         <inertial>
           <pose>0 0 0 0 -0 0</pose>
-          <mass>0.05</mass>
+          <mass>0.01</mass>
           <inertia>
             <ixx>0</ixx>
             <ixy>0</ixy>
@@ -516,6 +516,107 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>1.03154 0.971825 0 0 -0 0</pose>
     </model>
+
+    <model name='microwave'>
+      <static>true</static>
+      <link name="rb0">
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>20</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <visual name='microwave_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+            <uri>model://microwave/meshes/microwave.dae</uri>
+          </mesh>
+          </geometry>
+        </visual>
+        <collision name="microwave_collision">
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>model://microwave/meshes/microwave.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="j_0_1" type="revolute">
+        <parent>rb0</parent>
+        <child>rb1</child>
+        <pose relative_to='rb0'>0.07205093735 0.190694365814 -0.353022975905 0 -0 0</pose>
+        <axis>
+          <xyz>0.984974124857 -0.162502852506 0.0584704736547</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>30</effort>
+            <velocity>1</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0.496014</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <joint name="j_0_fixed" type="fixed">
+        <parent>rb1</parent>
+        <child>rb1_marker</child>
+        <pose relative_to='rb1'>-0.0565951532963 -0.380803829114 -0.0996908344172 0.479541606394
+          -1.40259591186 -2.11289192677</pose>
+        <limit>
+          <lower>-3.14</lower>
+          <upper>3.14</upper>
+          <effort>30</effort>
+          <velocity>1</velocity>
+        </limit>
+      </joint>
+      <link name="rb1">
+      </link>
+      <link name="rb1_marker">
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>20</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <visual name='microwave_visual2'>
+          <pose>-0.086981 0.102000 0.220229 -1.544815 -0.073080 3.141268</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://microwave/meshes/microwave_door.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="microwave_collision2">
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://microwave/meshes/microwave_door.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
     <model name='cabinet'>
       <link name='cabinet_0004'>
         <inertial>
@@ -740,7 +841,7 @@
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
-      <model name='bowl'>
+      <!-- <model name='bowl'>
         <pose>-1.113049 1.0 0.734935 0 -0 -0.007055</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -749,7 +850,7 @@
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -0.98 0 -0 0</wrench>
         </link>
-      </model>
+      </model> -->
       <model name='bowl_0'>
         <pose>-1.334383 1.071372 0.733455 0 -0 0.005806</pose>
         <scale>1 1 1</scale>
@@ -790,7 +891,7 @@
           <wrench>-33.6153 74.4174 -475.554 0 -0 0</wrench>
         </link>
         <link name='dof_rootd_Ba001_r'>
-          <pose>-0.811546 1.341832 1.170156 -1e-06 -6e-06 -4.52981865359</pose>
+          <pose>-0.811546 1.341832 1.170156 -1e-06 -6e-06 -4.42981865359</pose>
           <velocity>-0.003886 0.001994 0.001395 -0.006836 -0.008195 -0.000545</velocity>
           <acceleration>-0.992899 1.12164 -8.18292 0 -0 0</acceleration>
           <wrench>-2.62224 2.96225 -21.611 0 -0 0</wrench>
@@ -812,6 +913,23 @@
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
+      <model name='microwave'>
+        <pose>0 0 0 0 0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='rb0'>
+          <pose>0 0 0 0 0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+        <link name='rb1'>
+          <pose>0 0 0 0 0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+
       <light name='sun'>
         <pose>0 0 10 0 -0 0</pose>
       </light>
