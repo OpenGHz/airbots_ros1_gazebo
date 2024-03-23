@@ -74,30 +74,47 @@ arm_position_controller:
   #       d: 0.01
   #       i: 1
 
+# gripper_position_controller:
+#   type: position_controllers/JointTrajectoryController
+#   joints:
+#     - joint_gripper10
+#     - joint_gripper11
+#     - joint_gripper20
+#     - joint_gripper21
+#   gains:
+#     joint_gripper10:
+#       p: 100
+#       d: 1
+#       i: 1
+#       i_clamp: 1
+#     joint_gripper11:
+#       p: 100
+#       d: 1
+#       i: 1
+#       i_clamp: 1
+#     joint_gripper20:
+#       p: 100
+#       d: 1
+#       i: 1
+#       i_clamp: 1
+#     joint_gripper21:
+#       p: 100
+#       d: 1
+#       i: 1
+#       i_clamp: 1
+
 gripper_position_controller:
   type: position_controllers/JointTrajectoryController
   joints:
-    - joint_gripper10
-    - joint_gripper11
-    - joint_gripper20
-    - joint_gripper21
+    - endright
+    - endleft
   gains:
-    joint_gripper10:
+    endright:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-    joint_gripper11:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    joint_gripper20:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    joint_gripper21:
+    endleft:
       p: 100
       d: 1
       i: 1
