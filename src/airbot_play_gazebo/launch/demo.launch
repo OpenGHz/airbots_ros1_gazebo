@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Gazebo options -->
-  <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_3cubes.world" doc="Gazebo world file"/>
+  <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_3cubes_static.world" doc="Gazebo world file"/>
   <arg name="world_pose" default="-x 0.39 -y 0.8435 -z 0.302493 -R 0 -P 0 -Y -1.57079" doc="Pose to spawn the robot at"/>
   <arg name="model_pkg" default="airbot_play_gripper_with_simple_usb_camera_gazebo" doc="The name of the package containing URDF or Xacro file of robot model"/>
   <arg name="model_name" default="$(arg model_pkg)" doc="The URDF or Xacro file name of robot model"/>
