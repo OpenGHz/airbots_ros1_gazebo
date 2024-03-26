@@ -18,7 +18,7 @@ fi
 #     echo "export GAZEBO_MODEL_PATH=${current_dir}/models" >> ~/."${SHELL##*/}"rc
 # fi
 
-mkdir ~/.gazebo/models
+mkdir -p ~/.gazebo/models
 pushd ~/.gazebo/models > /dev/null
 
 wget http://file.ncnynl.com/ros/gazebo_models.txt
