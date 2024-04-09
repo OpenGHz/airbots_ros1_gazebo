@@ -20,5 +20,6 @@ install(DIRECTORY config DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
 
 catkin_install_python(PROGRAMS
   demos/keyboard_control.py
+  scripts/remap_joint_cmd.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

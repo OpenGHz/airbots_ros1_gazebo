@@ -1,11 +1,28 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="namespace" default="airbot_play"/>
+  <arg name="use_moveit" default="false"/>
+  <arg name="with_rm2" default="false"/>
 
-  <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find airbot_play_gazebo)/config/ros_controllers.yaml" command="load"/>
+  <group if="$(arg use_moveit)">
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find airbot_play_gazebo)/config/moveit_controllers.yaml" command="load"/>
+    <!-- Load the controllers -->
+    <node name="airbot_play_gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+      output="screen" args="arm_position_controller gripper_position_controller "/>
+  </group>
 
-  <!-- Load the controllers -->
-  <node name="airbot_play_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" args="arm_position_controller gripper_position_controller "/>
+  <group unless="$(arg use_moveit)">
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find airbot_play_gazebo)/config/gazebo_controllers.yaml" command="load"/>
+    <!-- Load the controllers -->
+    <node name="airbot_play_gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+      output="screen" args="arm_group_position_controller gripper_group_position_controller"/>
+  </group>
+
+  <rosparam file="$(find airbot_play_gazebo)/config/joint_state_controller.yaml" command="load"/>
+  <node name="joint_state_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
+  <!-- rm2 config -->
+  <include if="$(arg with_rm2)" file="$(find airbot_play_gazebo)/launch/rm2_controller.launch"/>
 
 </launch>

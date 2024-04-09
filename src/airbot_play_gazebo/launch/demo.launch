@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Gazebo options -->
+  <arg name="namespace" default="airbot_play" />
   <arg name="world_name" default="airbot_play_gazebo_worlds/desk_sky_box_3cubes_static.world" doc="Gazebo world file"/>
   <arg name="world_pose" default="-x 0.39 -y 0.8435 -z 0.302493 -R 0 -P 0 -Y -1.57079" doc="Pose to spawn the robot at"/>
   <arg name="model_pkg" default="airbot_play_gripper_with_simple_usb_camera_gazebo" doc="The name of the package containing URDF or Xacro file of robot model"/>
@@ -19,7 +20,7 @@
   <arg name="image_view" default="false" doc="View image from default topic "/>
 
   <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
+  <include file="$(find airbot_play_gazebo)/launch/empty_world.launch" pass_all_args="true">
     <arg name="paused" value="true"/>
   </include>
 
@@ -28,32 +29,38 @@
   <arg name="model_pkg_path" value="$(eval eval('_'+'_import_'+'_(&quot;subprocess&quot;)').check_output(eval(arg('cmd_to_find_model_path'))).decode().strip())"/>
   <param unless="$(arg use_xacro)" name="robot_description" textfile="$(arg model_pkg_path)/urdf/$(arg model_name).urdf" />
   <param if="$(arg use_xacro)" name="robot_description" command="$(find xacro)/xacro --inorder '$(arg model_pkg_path)/urdf/$(arg model_name).xacro'" />
+  <group ns="$(arg namespace)">
+    <param unless="$(arg use_xacro)" name="robot_description" textfile="$(arg model_pkg_path)/urdf/$(arg model_name).urdf" />
+    <param if="$(arg use_xacro)" name="robot_description" command="$(find xacro)/xacro --inorder '$(arg model_pkg_path)/urdf/$(arg model_name).xacro'" />
+  </group>
 
   <!-- Unpause the simulation after loading the robot model -->
   <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" />
 
-  <!-- Spawn the robot in Gazebo -->
+  <!-- Spawn the robot to Gazebo -->
   <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot $(arg unpause) $(arg world_pose) $(arg initial_joint_positions)"
     respawn="false" output="screen" />
 
-  <!-- Add other models in Gazebo -->
+  <!-- Add other models to Gazebo -->
   <include if="$(arg add_models)" file="$(find airbot_play_gazebo)/launch/add_models.launch" />
+  <!-- Spawn the ROS controllers -->
+  <include file="$(find airbot_play_gazebo)/launch/ros_controllers.launch">
+    <!-- Use MoveIt! to control the gazebo robot -->
+    <arg name="use_moveit" value="$(arg start_moveit)" />
+    <!-- Use RM2 -->
+    <arg name="with_rm2" value="$(arg with_rm2)" />
+  </include>
 
-  <!-- Load the controller parameters onto the parameter server -->
-  <rosparam file="$(find airbot_play_gazebo)/config/gazebo_controllers.yaml" />
-  <include file="$(find airbot_play_gazebo)/launch/ros_controllers.launch"/>
-
-  <!-- rm2 config -->
-  <include if="$(arg with_rm2)" file="$(find airbot_play_gazebo)/launch/rm2_controller.launch"/>
-
-  <!-- Spawn the Gazebo ROS controllers -->
-  <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
-
-  <!-- Given the published joint states, publish tf for the robot links -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+  <!-- Remap the joint cmd -->
+  <group ns="$(arg namespace)">
+    <node name="airbot_play_gazebo_remap_joint_cmd" pkg="airbot_play_gazebo" type="remap_joint_cmd.py">
+    </node>
+  </group>
 
   <!-- Start MoveIt! -->
-  <group if="$(arg start_moveit)">
+  <group if="$(arg start_moveit)" ns="$(arg namespace)">
+    <!-- Given the published joint states, publish tf for the robot links -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
     <arg name="cmd_to_find_pkg_path" value="['rospack','find','$(arg moveit_config)']"/>
     <arg name="pkg_path" value="$(eval eval('_'+'_import_'+'_(&quot;subprocess&quot;)').check_output(eval(arg('cmd_to_find_pkg_path'))).decode().strip())"/>
     <include file="$(arg pkg_path)/launch/demo.launch">
@@ -62,15 +69,14 @@
       <arg name="moveit_controller_manager" value="ros_control" />
       <arg name="pipeline" value="ompl"/>
     </include>
+    <!-- 规划与执行的关键参数 -->
+    <param name="move_group/trajectory_execution/allowed_execution_duration_scaling" value="3.0"/>
+    <param name="move_group/trajectory_execution/allowed_goal_duration_margin" value="0.5"/>
+    <param name="move_group/trajectory_execution/execution_duration_monitoring" value="false"/>
+    <param name="move_group/trajectory_execution/allowed_start_tolerance" value="3.0"/>
   </group>
 
   <param name="/airbot_play/sim_player_nums" type="int" value="$(arg player_number)" />
-
-  <!-- 规划与执行的关键参数 -->
-  <param name="move_group/trajectory_execution/allowed_execution_duration_scaling" value="3.0"/>
-  <param name="move_group/trajectory_execution/allowed_goal_duration_margin" value="0.5"/>
-  <param name="move_group/trajectory_execution/execution_duration_monitoring" value="false"/>
-  <param name="move_group/trajectory_execution/allowed_start_tolerance" value="3.0"/>
 
   <!-- ik server -->
   <node if="$(arg ik_server)" name="airbot_play_gazebo_ik_server" pkg="airbot_play_follow_basic" type="ik_control_server.py" args="-rd 'robot_description' -ns ''" output="screen" />
@@ -78,6 +84,5 @@
   <node if="$(arg gripper_node)" name="airbot_play_gazebo_gripper_control" pkg="airbot_play_follow_basic" type="gripper_control.py" args="-rd 'robot_description' -ns ''" output="screen" />
   <!-- image view -->
   <node if="$(arg image_view)" name="airbot_play_gazebo_image_view" pkg="image_view" type="image_view" args="image:=/camera/color/image_raw" output="screen" />
-
 
 </launch>
