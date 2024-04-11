@@ -82,7 +82,8 @@
   <node if="$(arg ik_server)" name="airbot_play_gazebo_ik_server" pkg="airbot_play_follow_basic" type="ik_control_server.py" args="-rd 'robot_description' -ns ''" output="screen" />
   <!-- gripper control node -->
   <node if="$(arg gripper_node)" name="airbot_play_gazebo_gripper_control" pkg="airbot_play_follow_basic" type="gripper_control.py" args="-rd 'robot_description' -ns ''" output="screen" />
-  <!-- image view -->
+  <!-- image view TODO:auto detect image topic  -->
   <node if="$(arg image_view)" name="airbot_play_gazebo_image_view" pkg="image_view" type="image_view" args="image:=/camera/color/image_raw" output="screen" />
-
+  <!-- <node if="$(arg image_view)" name="airbot_play_gazebo_cam0_image_view" pkg="image_view" type="image_view" args="image:=/usb_cam_0/image_raw" output="screen" />
+  <node if="$(arg image_view)" name="airbot_play_gazebo_cam1_image_view" pkg="image_view" type="image_view" args="image:=/usb_cam_1/image_raw" output="screen" /> -->
 </launch>
