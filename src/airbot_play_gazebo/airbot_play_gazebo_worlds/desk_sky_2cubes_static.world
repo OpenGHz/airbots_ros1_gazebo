@@ -254,7 +254,7 @@
     <model name='green_cube'>
       <link name='link'>
         <inertial>
-          <mass>0.03</mass>
+          <mass>0.1</mass>
           <inertia>
             <ixx>0.00066667</ixx>
             <ixy>0</ixy>
@@ -349,7 +349,7 @@
 <model name='blue_cube'>
   <link name='link'>
     <inertial>
-      <mass>0.03</mass>
+      <mass>0.1</mass>
       <inertia>
         <ixx>0.00066667</ixx>
         <ixy>0</ixy>
